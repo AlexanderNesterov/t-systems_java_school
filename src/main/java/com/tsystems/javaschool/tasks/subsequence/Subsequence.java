@@ -28,6 +28,11 @@ public class Subsequence {
             return false;
         }
 
+
+        return findSubsequence(x, y);
+    }
+
+    private boolean findSubsequence(List x, List y) {
         int index = 0;
 
         for (int i = 0; i < y.size(); i++) {
