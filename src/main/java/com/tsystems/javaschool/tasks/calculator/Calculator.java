@@ -19,7 +19,7 @@ public class Calculator {
             return null;
         }
 
-        String result = getNumber(statement);
+        String result = getCalculatedString(statement);
 
         if (result == null) {
             return  null;
@@ -32,16 +32,17 @@ public class Calculator {
         return result;
     }
 
-    private String getNumber(String statement) {
+    private String getCalculatedString(String statement) {
         String result = "";
 
         if (statement.contains("(")) {
             result = statement.substring(0, statement.indexOf('('));
-            String str1 = getNumber(statement.substring(statement.indexOf('(') + 1));
+            String str1 = getCalculatedString(statement.substring(statement.indexOf('(') + 1));
 
             if (str1 == null) {
                 return null;
             }
+
             result = result.concat(str1);
         } else {
             result = statement;
@@ -65,9 +66,9 @@ public class Calculator {
     }
 
     private String calculate(String statement) {
-        boolean isMultiplyOrDivide = false;
-        char sign = ' ';
-        int twoSignsCounter = 0;
+        char multiplyOrDivideSign = ' ';
+        int twoSignsInRowCounter = 0;
+
         LinkedList<String> list = new LinkedList<>();
         StringBuilder sb = new StringBuilder();
 
@@ -78,23 +79,22 @@ public class Calculator {
 
         for (int i = 0; i < statement.length(); i++) {
             if (isMathSign(statement.charAt(i))) {
-                twoSignsCounter++;
+                twoSignsInRowCounter++;
                 if (statement.charAt(i) == '+' || statement.charAt(i) == '-') {
-                    if (twoSignsCounter == 1) {
+                    if (twoSignsInRowCounter == 1) {
                         list.push(String.valueOf(statement.charAt(i)));
                     }
                 } else {
-                    sign = statement.charAt(i);
-                    isMultiplyOrDivide = true;
+                    multiplyOrDivideSign = statement.charAt(i);
                 }
                 continue;
             }
 
-            if (twoSignsCounter == 2) {
+            if (twoSignsInRowCounter == 2) {
                 sb.append('-');
             }
 
-            twoSignsCounter = 0;
+            twoSignsInRowCounter = 0;
 
             while (i < statement.length() && (statement.charAt(i) >= '0' && statement.charAt(i) <= '9'
                     || statement.charAt(i) == '.')) {
@@ -102,15 +102,15 @@ public class Calculator {
                 i++;
             }
 
-            if (isMultiplyOrDivide) {
-                String result = calculateTwoNumbers(list.pop(), String.valueOf(sign), sb.toString());
+            if (multiplyOrDivideSign != ' ') {
+                String result = calculateTwoNumbers(list.pop(), String.valueOf(multiplyOrDivideSign), sb.toString());
 
                 if (result == null) {
                     return null;
                 }
 
                 list.push(result);
-                isMultiplyOrDivide = false;
+                multiplyOrDivideSign = ' ';
             } else {
                 list.push(sb.toString());
             }
