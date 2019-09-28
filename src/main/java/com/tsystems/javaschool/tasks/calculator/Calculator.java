@@ -237,9 +237,4 @@ public class Calculator {
 
         return true;
     }
-
-/*    public static void main(String[] args) {
-        String str = new Calculator().evaluate("10/0");
-        System.out.println(str);
-    }*/
 }
