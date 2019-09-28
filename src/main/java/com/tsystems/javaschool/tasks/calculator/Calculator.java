@@ -14,19 +14,8 @@ public class Calculator {
      */
     public String evaluate(String statement) {
         // TODO: Implement the logic here
-        if (statement == null || statement.equals("")) {
-            return null;
-        }
 
-        if (!checkSymbols(statement)) {
-            return null;
-        }
-
-        if (!checkBrackets(statement)) {
-            return null;
-        }
-
-        if (checkDoubleSigns(statement)) {
+        if (!checkStatement(statement)) {
             return null;
         }
 
@@ -49,6 +38,7 @@ public class Calculator {
         if (statement.contains("(")) {
             str = statement.substring(0, statement.indexOf('('));
             String str1 = getNumber(statement.substring(statement.indexOf('(') + 1));
+
             if (str1 == null) {
                 return null;
             }
@@ -101,7 +91,8 @@ public class Calculator {
 
             twoSignsCounter = 0;
 
-            while (i < statement.length() && (statement.charAt(i) >= '0' && statement.charAt(i) <= '9' || statement.charAt(i) == '.')) {
+            while (i < statement.length() && (statement.charAt(i) >= '0' && statement.charAt(i) <= '9'
+                    || statement.charAt(i) == '.')) {
                 sb.append(statement.charAt(i));
                 i++;
             }
@@ -127,13 +118,10 @@ public class Calculator {
     }
 
     private String calculateList(LinkedList<String> list) {
-        String res = "";
+        String result = "";
         while (list.size() > 1) {
-            String num1 = list.pollLast();
-            String sign = list.pollLast();
-            String num2 = list.pollLast();
-            res = calculateTwoNumbers(num1, sign, num2);
-            list.addLast(res);
+            result = calculateTwoNumbers(list.pollLast(), list.pollLast(), list.pollLast());
+            list.addLast(result);
         }
 
         return list.get(0);
@@ -225,8 +213,28 @@ public class Calculator {
         return false;
     }
 
+    private boolean checkStatement(String statement) {
+        if (statement == null || statement.equals("")) {
+            return false;
+        }
+
+        if (!checkSymbols(statement)) {
+            return false;
+        }
+
+        if (!checkBrackets(statement)) {
+            return false;
+        }
+
+        if (checkDoubleSigns(statement)) {
+            return false;
+        }
+
+        return true;
+    }
+
 /*    public static void main(String[] args) {
-        String str = new Calculator().evaluate("10/3");
+        String str = new Calculator().evaluate("10/0");
         System.out.println(str);
     }*/
 }
