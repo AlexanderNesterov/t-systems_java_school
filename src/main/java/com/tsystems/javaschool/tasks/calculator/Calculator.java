@@ -33,30 +33,35 @@ public class Calculator {
     }
 
     private String getNumber(String statement) {
-        String str = "";
+        String result = "";
 
         if (statement.contains("(")) {
-            str = statement.substring(0, statement.indexOf('('));
+            result = statement.substring(0, statement.indexOf('('));
             String str1 = getNumber(statement.substring(statement.indexOf('(') + 1));
 
             if (str1 == null) {
                 return null;
             }
-            str = str.concat(str1);
+            result = result.concat(str1);
         } else {
-            str = statement;
+            result = statement;
         }
 
         String calculated = "";
 
-        if (str.contains(")")) {
-            calculated = calculate(str.substring(0, str.indexOf(')')));
-            str = str.replaceFirst(".+\\)", calculated);
+        if (result.contains(")")) {
+            calculated = calculate(result.substring(0, result.indexOf(')')));
+
+            if (calculated == null) {
+                return null;
+            }
+
+            result = result.replaceFirst(".+\\)", calculated);
         } else {
-            str = calculate(str);
+            result = calculate(result);
         }
 
-        return str;
+        return result;
     }
 
     private String calculate(String statement) {
