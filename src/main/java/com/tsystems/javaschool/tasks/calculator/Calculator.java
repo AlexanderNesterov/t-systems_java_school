@@ -225,8 +225,8 @@ public class Calculator {
         return false;
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         String str = new Calculator().evaluate("10/3");
         System.out.println(str);
-    }
+    }*/
 }
