@@ -227,6 +227,10 @@ public class Calculator {
             return false;
         }
 
+        if (statement.matches(".*\\+$|.*-$|.*\\*$|.*/$|.*\\.$|.*\\($")) {
+            return false;
+        }
+
         if (!checkBrackets(statement)) {
             return false;
         }
